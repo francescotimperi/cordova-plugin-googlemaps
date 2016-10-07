@@ -142,13 +142,20 @@ public class MyGeocoder extends CordovaPlugin {
       extra.put("phone", addr.getPhone());
       extra.put("permises", addr.getPremises());
       extra.put("url", addr.getUrl());
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
       JSONArray lines = new JSONArray();
       for (int i = 0; i < addr.getMaxAddressLineIndex(); i++) {
          lines.put(addr.getAddressLine(i));
       }
       extra.put("lines", lines);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
       
       Bundle extraInfo = addr.getExtras();
       if (extraInfo != null) {

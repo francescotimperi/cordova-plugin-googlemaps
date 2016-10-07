@@ -53,6 +53,10 @@
     [self.viewController.view addSubview:self.pluginLayer];
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     NSString *APIKey = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Google Maps API Key"];
     if (APIKey == nil) {
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
@@ -138,15 +142,19 @@
     [self.pluginScrollView.debugView setNeedsDisplay];
 }
 
+<<<<<<< HEAD
 -(void)pageDidLoad {
     self.webView.backgroundColor = [UIColor clearColor];
     self.webView.opaque = NO;
 }
+=======
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
 /**
  * Intialize the map
  */
 - (void)getMap:(CDVInvokedUrlCommand *)command {
+
     NSString *APIKey = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Google Maps API Key"];
     if (APIKey == nil) {
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
@@ -167,18 +175,83 @@
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     } else {
+<<<<<<< HEAD
 
         //dispatch_queue_t gueue = dispatch_queue_create("plugins.google.maps.init", NULL);
 
+=======
+        dispatch_queue_t gueue = dispatch_queue_create("plugins.google.maps.init", NULL);
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         // Create a map view
-        NSDictionary *options = [command.arguments objectAtIndex:0];
-        self.mapCtrl = [[GoogleMapsViewController alloc] initWithOptions:options];
-        self.mapCtrl.webView = self.webView;
+        // async:
+        //marker will be created while map controller is not full intialized.
+        //This could cause unincluded markers on the map .
 
+        //    dispatch_async(gueue, ^{
+        NSDictionary *options = [command.arguments objectAtIndex:0];
+
+        // C.A. Clustering -------------------------------------------------------------
+        if ([[options objectForKey:@"controller"] objectForKey:@"clustering"]) {
+
+            id<GClusterAlgorithm> algorithm;
+            id<GClusterRenderer> renderer;
+
+            NSDictionary * controller = [options objectForKey:@"controller"];
+
+            Boolean algoSet = false;
+            Boolean rendSet = false;
+            Boolean isCluster = [[controller objectForKey:@"clustering"] boolValue];
+
+            if ([controller objectForKey:@"algorithm"]) {
+                algoSet = true;
+                if ([[controller objectForKey:@"algorithm"]  isEqual: @"nonHierarchicalDistanceBasedAlgorithm"]) {
+                    algorithm = [[NonHierarchicalDistanceBasedAlgorithm alloc]init];
+                }
+                else {
+                    algoSet = false;
+                    NSLog(@"Unknown algorithm \"%@\": use nonclustering controller instead", [controller objectForKey:@"algorithm"]);
+                    self.mapCtrl = [[GoogleMapsViewController alloc] initWithOptions:options];
+                }
+            }
+
+            if ([controller objectForKey:@"rendering"]) {
+                rendSet = true;
+                if ([[controller objectForKey:@"rendering"]  isEqual: @"default"]) {
+                    renderer = [[GDefaultClusterRenderer alloc]init];
+                }
+                else if ([[controller objectForKey:@"rendering"]  isEqual: @"animated"]) {
+                    renderer = [[GAnimatedClusterRenderer alloc]init];
+                }
+                else {
+                    rendSet = false;
+                    NSLog(@"Unknown renderer \"%@\": use nonclustering controller instead", [controller objectForKey:@"rendering"]);
+                }
+            }
+
+            if (algoSet == true && rendSet == true && isCluster == true) {
+                self.mapCtrl = [[GoogleMapsClusterViewController alloc] initWithAlgorithm:algorithm andRenderer:renderer andOptions:options];
+            }
+            else {
+                NSLog(@"Default ViewController. 2");
+                self.mapCtrl = [[GoogleMapsViewController alloc] initWithOptions:options];
+            }
+        }
+        else {
+            NSLog(@"Default ViewController. 1");
+            self.mapCtrl = [[GoogleMapsViewController alloc] initWithOptions:options];
+        }
+        // C.A. Clustering -------------------------------------------------------------
+
+        self.mapCtrl.webView = self.webView;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         if ([options objectForKey:@"backgroundColor"]) {
             NSArray *rgbColor = [options objectForKey:@"backgroundColor"];
             self.pluginLayer.backgroundColor = [rgbColor parsePluginColor];
         }
+<<<<<<< HEAD
 
 
         // Create an instance of Map Class
@@ -208,6 +281,37 @@
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
+=======
+        //    });
+
+
+        // Create an instance of Map Class
+        dispatch_async(gueue, ^{
+            Map *mapClass = [[NSClassFromString(@"Map")alloc] initWithWebView:self.webView];
+            mapClass.commandDelegate = self.commandDelegate;
+            [mapClass setGoogleMapsViewController:self.mapCtrl];
+            [self.mapCtrl.plugins setObject:mapClass forKey:@"Map"];
+
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if ([command.arguments count] == 3) {
+                    [self.mapCtrl.view removeFromSuperview];
+                    self.mapCtrl.isFullScreen = NO;
+                    self.pluginLayer.mapCtrl = self.mapCtrl;
+                    self.pluginLayer.webView = self.webView;
+
+
+                    [self.pluginScrollView attachView:self.mapCtrl.view];
+                    //[self.pluginScrollView addSubview:self.mapCtrl.view];
+                    [self resizeMap:command];
+                }
+
+                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
+            });
+        });
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     }
 }
 
@@ -532,6 +636,7 @@
     // iOS8 or above
     direction = [UIDevice currentDevice].orientation;
 #endif
+<<<<<<< HEAD
    
    // On at least iOS 9.3.5, the screenSize.size changes on-orientation-change,
    // so we need to check if we really need to use the height as width and vice versa,
@@ -539,6 +644,12 @@
    if ((direction == UIInterfaceOrientationLandscapeLeft ||
         direction == UIInterfaceOrientationLandscapeRight)
        && screenSize.size.height > screenSize.size.width) {
+=======
+
+
+    if (direction == UIInterfaceOrientationLandscapeLeft ||
+        direction == UIInterfaceOrientationLandscapeRight) {
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         pluginRect.size.width = screenSize.size.height;
         pluginRect.size.height = screenSize.size.width - footerHeight - footerAdjustment;
     } else {

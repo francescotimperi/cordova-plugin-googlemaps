@@ -170,6 +170,7 @@ public class PluginPolygon extends MyPlugin implements MyPluginInterface  {
         polygon.remove();
         this.sendNoResult(callbackContext);
     }
+<<<<<<< HEAD
 
     /**
      * Set holes
@@ -216,6 +217,108 @@ public class PluginPolygon extends MyPlugin implements MyPluginInterface  {
         }
         this.objects.put("polygon_bounds_" + polygon.getId(), builder.build());
         this.sendNoResult(callbackContext);
+=======
+    if (opts.has("addHole")) {
+      JSONArray points = opts.getJSONArray("addHole");
+      List<LatLng> path = PluginUtil.JSONArray2LatLngList(points);
+      if(path.size() > 0) {
+          polygonOptions.addHole(path);
+      }
+    }
+
+    Polygon polygon = map.addPolygon(polygonOptions);
+    String id = "polygon_"+ polygon.getId();
+    this.objects.put(id, polygon);
+    
+    String boundsId = "polygon_bounds_" + polygon.getId();
+    this.objects.put(boundsId, builder.build());
+    
+    JSONObject result = new JSONObject();
+    result.put("hashCode", polygon.hashCode());
+    result.put("id", id);
+    callbackContext.success(result);
+  }
+  
+
+  /**
+   * set fill color
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setFillColor(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    String id = args.getString(1);
+    int color = PluginUtil.parsePluginColor(args.getJSONArray(2));
+    this.setInt("setFillColor", id, color, callbackContext);
+  }
+  
+  /**
+   * set stroke color
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setStrokeColor(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    String id = args.getString(1);
+    int color = PluginUtil.parsePluginColor(args.getJSONArray(2));
+    this.setInt("setStrokeColor", id, color, callbackContext);
+  }
+  
+  /**
+   * set stroke width
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setStrokeWidth(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    String id = args.getString(1);
+    float width = (float) args.getDouble(2) * this.density;
+    this.setFloat("setStrokeWidth", id, width, callbackContext);
+  }
+  
+  /**
+   * set z-index
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setZIndex(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    String id = args.getString(1);
+    float zIndex = (float) args.getDouble(2);
+    this.setFloat("setZIndex", id, zIndex, callbackContext);
+  }
+  
+  /**
+   * set geodesic
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setGeodesic(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    String id = args.getString(1);
+    boolean isGeodisic = args.getBoolean(2);
+    this.setBoolean("setGeodesic", id, isGeodisic, callbackContext);
+  }
+
+  /**
+   * Remove the polygon
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void remove(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    String id = args.getString(1);
+    Polygon polygon = this.getPolygon(id);
+    if (polygon == null) {
+      this.sendNoResult(callbackContext);
+      return;
+>>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     }
 
     /**
