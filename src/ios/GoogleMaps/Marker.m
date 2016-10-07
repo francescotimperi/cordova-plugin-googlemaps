@@ -26,8 +26,6 @@
 
     CLLocationCoordinate2D position = CLLocationCoordinate2DMake(latitude, longitude);
     GMSMarker *marker = [GMSMarker markerWithPosition:position];
-<<<<<<< HEAD
-=======
 
 
     if (![self.mapCtrl isKindOfClass:[GoogleMapsClusterViewController class]]) {
@@ -42,7 +40,6 @@
      }
      */
 
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     if ([json valueForKey:@"title"]) {
         [marker setTitle: [json valueForKey:@"title"]];
     }
@@ -102,15 +99,6 @@
         [iconProperty setObject:[rgbColor parsePluginColor] forKey:@"iconColor"];
     }
 
-<<<<<<< HEAD
-    // Visible property
-    if ([[json valueForKey:@"visible"] boolValue] == true) {
-        iconProperty[@"visible"] = @YES;
-    } else {
-        iconProperty[@"visible"] = @NO;
-    }
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     // Animation
     NSString *animation = nil;
     if ([json valueForKey:@"animation"]) {
@@ -142,9 +130,6 @@
         [self setIcon_:marker iconProperty:iconProperty pluginResult:pluginResult callbackId:command.callbackId];
 
     } else {
-        if ([[json valueForKey:@"visible"] boolValue] == true) {
-            marker.map = self.mapCtrl.map;
-        }
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
         if (animation) {
             [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:command.callbackId];
@@ -307,6 +292,7 @@
     if (marker.icon) {
         anchorX = anchorX / marker.icon.size.width;
         anchorY = anchorY / marker.icon.size.height;
+        [marker setGroundAnchor:CGPointMake(anchorX, anchorY)];
     }
     [marker setInfoWindowAnchor:CGPointMake(anchorX, anchorY)];
 
@@ -630,10 +616,6 @@
     __block NSString *animation = animationValue;
 
     if (iconPath) {
-<<<<<<< HEAD
-
-        NSRange range = [iconPath rangeOfString:@"http"];
-=======
         NSError *error;
         NSRange range = [iconPath rangeOfString:@"://"];
         if (range.location == NSNotFound) {
@@ -659,7 +641,6 @@
         }
 
         range = [iconPath rangeOfString:@"http"];
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         if (range.location != 0) {
             /**
              * Load icon from file or Base64 encoded strings
@@ -720,39 +701,9 @@
                     }
                 }
 
-<<<<<<< HEAD
-
-                range = [iconPath rangeOfString:@"://"];
-                if (range.location == NSNotFound) {
-                    range = [iconPath rangeOfString:@"www/"];
-                    if (range.location == NSNotFound) {
-                        iconPath = [NSString stringWithFormat:@"www/%@", iconPath];
-                    }
-
-                    range = [iconPath rangeOfString:@"/"];
-                    if (range.location != 0) {
-                      // Get the absolute path of the www folder.
-                      // https://github.com/apache/cordova-plugin-file/blob/1e2593f42455aa78d7fff7400a834beb37a0683c/src/ios/CDVFile.m#L506
-                      NSString *applicationDirectory = [[NSURL fileURLWithPath:[[NSBundle mainBundle] resourcePath]] absoluteString];
-                      iconPath = [NSString stringWithFormat:@"%@%@", applicationDirectory, iconPath];
-                    } else {
-                      iconPath = [NSString stringWithFormat:@"file://%@", iconPath];
-                    }
-                }
-
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
                 range = [iconPath rangeOfString:@"file://"];
                 if (range.location != NSNotFound) {
-
-                    #ifdef __CORDOVA_4_0_0
-                        NSURL *fileURL = [NSURL URLWithString:iconPath];
-                        NSURL *resolvedFileURL = [fileURL URLByResolvingSymlinksInPath];
-                        iconPath = [resolvedFileURL path];
-                    #else
-                        iconPath = [iconPath stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-                    #endif
-                    
+                    iconPath = [iconPath stringByReplacingOccurrencesOfString:@"file://" withString:@""];
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     if (![fileManager fileExistsAtPath:iconPath]) {
                         if (self.mapCtrl.debuggable) {
@@ -788,15 +739,6 @@
                 marker.infoWindowAnchor = CGPointMake(anchorX, anchorY);
             }
 
-<<<<<<< HEAD
-
-            // The `visible` property
-            if (iconProperty[@"visible"]) {
-                marker.map = self.mapCtrl.map;
-            }
-
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
             if (animation) {
                 // Do animation, then send the result
                 [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId];
@@ -806,16 +748,13 @@
             }
         } else {
             if (self.mapCtrl.debuggable) {
-                NSLog(@"---- Load the icon from the internet");
+                NSLog(@"---- Load the icon from over the internet");
             }
             /***
-             * Load the icon from the internet
+             * Load the icon from over the internet
              */
-<<<<<<< HEAD
-=======
             __block BOOL isMapped = (marker.map != nil);
             marker.map = nil;
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
             /*
              // download the image asynchronously
@@ -835,12 +774,7 @@
 
                     if (!succeeded) {
 
-<<<<<<< HEAD
-                        // The `visible` property
-                        if ([[iconProperty valueForKey:@"visible"] boolValue]) {
-=======
                         if(isMapped) {
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
                             marker.map = self.mapCtrl.map;
                         }
 
@@ -872,12 +806,7 @@
                             marker.infoWindowAnchor = CGPointMake(anchorX, anchorY);
                         }
 
-<<<<<<< HEAD
-                        // The `visible` property
-                        if ([[iconProperty valueForKey:@"visible"] boolValue]) {
-=======
                         if (isMapped) {
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
                             marker.map = self.mapCtrl.map;
                         }
 
@@ -908,16 +837,7 @@
     } else if ([iconProperty valueForKey:@"iconColor"]) {
         UIColor *iconColor = [iconProperty valueForKey:@"iconColor"];
         marker.icon = [GMSMarker markerImageWithColor:iconColor];
-<<<<<<< HEAD
-        
-        // The `visible` property
-        if ([[iconProperty valueForKey:@"visible"] boolValue]) {
-            marker.map = self.mapCtrl.map;
-        }
-        
-=======
 
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         if (animation) {
             // Do animation, then send the result
             [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId];
@@ -933,9 +853,9 @@
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,  NSError *error) {
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                if ( !error )
                                {
                                    UIImage *image = [[UIImage alloc] initWithData:data];
@@ -944,7 +864,5 @@
                                    completionBlock(NO,nil);
                                }
                            }];
-    [task resume];
-
 }
 @end

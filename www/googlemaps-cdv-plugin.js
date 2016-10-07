@@ -19,22 +19,6 @@ var BaseClass = function() {
         }
     };
 
-<<<<<<< HEAD
-    self.deleteFromObject = function(object, type) {
-        if (object === null) return object;
-        for(var index in Object.keys(object)) {
-            var key = Object.keys(object)[index];
-            if (typeof object[key] === 'object') {
-               object[key] = self.deleteFromObject(object[key], type);
-            } else if (typeof object[key] === type) {
-               delete object[key];
-            }
-        }
-        return object;
-    };
-
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     self.get = function(key) {
         return key in _vars ? _vars[key] : null;
     };
@@ -201,11 +185,7 @@ App.prototype._onKmlEvent = function(eventName, objectType, kmlLayerId, result, 
         if (eventName === "add") {
             var overlay = null;
 
-<<<<<<< HEAD
-            switch ((objectType + "").toLowerCase()) {
-=======
             switch (objectType) {
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
                 case "marker":
                     overlay = new Marker(self, result.id, options);
                     MARKERS[result.id] = overlay;
@@ -296,15 +276,9 @@ App.prototype._onCameraEvent = function(eventName, params) {
 
 
 App.prototype.getMap = function(div, params) {
-<<<<<<< HEAD
-     // Redraw the browser mandatory (especially for iOS)
-    document.body.style.backgroundColor="rgba(0,0,0,0.1)";
-    
-=======
     // Redraw the browser mandatory (especially for iOS)
     document.body.style.backgroundColor="rgba(0,0,0,0.1)";
 
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     var self = this,
         args = [];
 
@@ -313,13 +287,6 @@ App.prototype.getMap = function(div, params) {
         params = params || {};
         params.backgroundColor = params.backgroundColor || '#ffffff';
         params.backgroundColor = HTMLColor2RGBA(params.backgroundColor);
-<<<<<<< HEAD
-        if (params.camera && params.camera.latLng) {
-          params.camera.target = params.camera.latLng;
-          delete params.camera.latLng;
-        }
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         args.push(params);
     } else {
 
@@ -348,56 +315,6 @@ App.prototype.getMap = function(div, params) {
             self.set("div", null);
             self.set("keepWatching", false);
         }
-<<<<<<< HEAD
-
-
-        var children = getAllChildren(div);
-        params = params || {};
-        params.backgroundColor = params.backgroundColor || '#ffffff';
-        params.backgroundColor = HTMLColor2RGBA(params.backgroundColor);
-        if (params.camera && params.camera.latLng) {
-          params.camera.target = params.camera.latLng;
-          delete params.camera.latLng;
-        }
-        args.push(params);
-
-        self.set("div", div);
-        args.push(getDivRect(div));
-        var elements = [];
-        var elemId, clickable;
-
-        for (var i = 0; i < children.length; i++) {
-            element = children[i];
-            elemId = element.getAttribute("__pluginDomId");
-            if (!elemId) {
-                elemId = "pgm" + Math.floor(Math.random() * Date.now()) + i;
-                element.setAttribute("__pluginDomId", elemId);
-            }
-            elements.push({
-                id: elemId,
-                size: getDivRect(element)
-            });
-            i++;
-        }
-        args.push(elements);
-
-        div.addEventListener("DOMNodeRemoved", _remove_child);
-        div.addEventListener("DOMNodeInserted", _append_child);
-
-        self.set("keepWatching", true);
-        var className;
-        while (div.parentNode) {
-            div.style.backgroundColor = 'rgba(0,0,0,0)';
-            className = div.className;
-
-            // prevent multiple readding the class
-            if (div.classList && !div.classList.contains('_gmaps_cdv_')) {
-                div.classList.add('_gmaps_cdv_');
-            } else if (div.className && !div.className.indexOf('_gmaps_cdv_') == -1) {
-                div.className = div.className + ' _gmaps_cdv_';
-            }
-
-=======
 
 
         var children = getAllChildren(div);
@@ -442,7 +359,6 @@ App.prototype.getMap = function(div, params) {
                 div.className = div.className + ' _gmaps_cdv_';
             }
 
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
             div = div.parentNode;
         }
     }
@@ -451,11 +367,7 @@ App.prototype.getMap = function(div, params) {
             self.refreshLayout();
             self.trigger(plugin.google.maps.event.MAP_READY, self);
         }, 100);
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'getMap', self.deleteFromObject(args,'function'));
-=======
     }, self.errorHandler, PLUGIN_NAME, 'getMap', args);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     return self;
 };
 
@@ -469,7 +381,7 @@ App.prototype.getLicenseInfo = function(callback) {
 
 
 /**
- * @desc get watchDogTimer value for map positioning changes
+ * @desc Set watchDogTimer for map positioning changes
  */
 App.prototype.getWatchDogTimer = function() {
     var self = this;
@@ -491,18 +403,10 @@ App.prototype.setWatchDogTimer = function(time) {
 
 };
 
-function onBackbutton() {
-    _mapInstance.closeDialog();
-}
-
 /**
  * @desc Open the map dialog
  */
 App.prototype.showDialog = function() {
-<<<<<<< HEAD
-    document.addEventListener("backbutton", onBackbutton, false);
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'showDialog', []);
 };
 
@@ -510,10 +414,6 @@ App.prototype.showDialog = function() {
  * @desc Close the map dialog
  */
 App.prototype.closeDialog = function() {
-<<<<<<< HEAD
-    document.removeEventListener("backbutton", onBackbutton, false);
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'closeDialog', []);
 };
 
@@ -522,16 +422,8 @@ App.prototype.setOptions = function(options) {
     if (options.hasOwnProperty('backgroundColor')) {
         options.backgroundColor = HTMLColor2RGBA(options.backgroundColor);
     }
-<<<<<<< HEAD
-    if (options.camera && options.camera.latLng) {
-      options.camera.target = options.camera.latLng;
-      delete options.camera.latLng;
-    }
-    cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Map.setOptions', this.deleteFromObject(options,'function')]);
-=======
     options.backgroundColor = HTMLColor2RGBA(options.backgroundColor);
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Map.setOptions', options]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 App.prototype.setCenter = function(latLng) {
@@ -583,41 +475,6 @@ App.prototype.setTilt = function(tilt) {
  * @params {Function} [callback] This callback is involved when the animation is completed.
  */
 App.prototype.animateCamera = function(cameraPosition, callback) {
-<<<<<<< HEAD
-    var self = this;
-    if (cameraPosition.target && cameraPosition.target.type === "LatLngBounds") {
-        cameraPosition.target = [cameraPosition.target.southwest, cameraPosition.target.northeast];
-    }
-
-    if (!cameraPosition.hasOwnProperty('zoom')) {
-        self.getZoom(function(zoom) {
-            cameraPosition.zoom = zoom;
-        });
-    }
-
-    if (!cameraPosition.hasOwnProperty('tilt')) {
-        self.getTilt(function(tilt) {
-            cameraPosition.tilt = tilt;
-        });
-    }
-
-    if (!cameraPosition.hasOwnProperty('bearing')) {
-        self.getBearing(function(bearing) {
-            cameraPosition.bearing = bearing;
-        });
-    }
-
-    var self = this;
-    setTimeout(function() {
-        cordova.exec(function() {
-            if (typeof callback === "function") {
-                callback.call(self);
-            }
-        }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.animateCamera', self.deleteFromObject(cameraPosition,'function')]);
-    }.bind(self), 10);
-
-
-=======
     if (cameraPosition.target &&
         cameraPosition.target.type === "LatLngBounds") {
         cameraPosition.target = [cameraPosition.target.southwest, cameraPosition.target.northeast];
@@ -629,7 +486,6 @@ App.prototype.animateCamera = function(cameraPosition, callback) {
             callback.call(self);
         }
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.animateCamera', cameraPosition]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 /**
  * @desc   Move the map camera without animation
@@ -640,37 +496,6 @@ App.prototype.moveCamera = function(cameraPosition, callback) {
     if (cameraPosition.target &&
         cameraPosition.target.type === "LatLngBounds") {
         cameraPosition.target = [cameraPosition.target.southwest, cameraPosition.target.northeast];
-<<<<<<< HEAD
-    }
-    var self = this;
-
-    if (!cameraPosition.hasOwnProperty('zoom')) {
-        self.getZoom(function(zoom) {
-            cameraPosition.zoom = zoom;
-        });
-    }
-
-    if (!cameraPosition.hasOwnProperty('tilt')) {
-        self.getTilt(function(tilt) {
-            cameraPosition.tilt = tilt;
-        });
-    }
-
-    if (!cameraPosition.hasOwnProperty('bearing')) {
-        self.getBearing(function(bearing) {
-            cameraPosition.bearing = bearing;
-        });
-    }
-
-    setTimeout(function() {
-        cordova.exec(function() {
-            if (typeof callback === "function") {
-                callback.call(self);
-            }
-        }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.moveCamera', self.deleteFromObject(cameraPosition,'function')]);
-    }.bind(self), 10);
-
-=======
     }
     var self = this;
     cordova.exec(function() {
@@ -678,7 +503,6 @@ App.prototype.moveCamera = function(cameraPosition, callback) {
             callback.call(self);
         }
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.moveCamera', cameraPosition]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 App.prototype.setMyLocationEnabled = function(enabled) {
@@ -707,11 +531,7 @@ App.prototype.getMyLocation = function(params, success_callback, error_callback)
     success_callback = args[1];
     error_callback = args[2];
 
-<<<<<<< HEAD
-    params.enableHighAccuracy = params.enableHighAccuracy  === true;
-=======
     params.enableHighAccuracy = params.enableHighAccuracy || false;
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     var self = this;
     var successHandler = function(location) {
         if (typeof success_callback === "function") {
@@ -724,11 +544,7 @@ App.prototype.getMyLocation = function(params, success_callback, error_callback)
             error_callback.call(self, result);
         }
     };
-<<<<<<< HEAD
-    cordova.exec(successHandler, errorHandler, PLUGIN_NAME, 'getMyLocation', [self.deleteFromObject(params,'function')]);
-=======
     cordova.exec(successHandler, errorHandler, PLUGIN_NAME, 'getMyLocation', [params]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 App.prototype.getFocusedBuilding = function(callback) {
     var self = this;
@@ -778,37 +594,6 @@ App.prototype.getCameraPosition = function(callback) {
             callback.call(self, camera);
         }
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.getCameraPosition']);
-<<<<<<< HEAD
-};
-
-
-App.prototype.getZoom = function(callback) {
-    var self = this;
-    cordova.exec(function(camera) {
-        if (typeof callback === "function") {
-            callback.call(self, camera.zoom);
-        }
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.getCameraPosition']);
-};
-
-App.prototype.getTilt = function(callback) {
-    var self = this;
-    cordova.exec(function(camera) {
-        if (typeof callback === "function") {
-            callback.call(self, camera.tilt);
-        }
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.getCameraPosition']);
-};
-
-App.prototype.getBearing = function(callback) {
-    var self = this;
-    cordova.exec(function(camera) {
-        if (typeof callback === "function") {
-            callback.call(self, camera.bearing);
-        }
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.getCameraPosition']);
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 /**
@@ -817,24 +602,6 @@ App.prototype.getBearing = function(callback) {
  */
 App.prototype.clear = function(callback) {
     var self = this;
-<<<<<<< HEAD
-
-    var clearObj = function (obj) {
-        var ids = Object.keys(obj);
-        var id;
-        for (var i = 0; i < ids.length; i++) {
-            id = ids[i];
-            obj[id].off();
-            delete obj[id];
-        }
-        obj = {};
-    };
-
-    clearObj(OVERLAYS);
-    clearObj(MARKERS);
-    clearObj(KML_LAYERS);
-
-=======
     var overlayIDs = Object.keys(OVERLAYS);
     var overlayId;
     for (var i = 0; i < overlayIDs.length; i++) {
@@ -843,7 +610,6 @@ App.prototype.clear = function(callback) {
         delete OVERLAYS[overlayId];
     }
     OVERLAYS = {};
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     cordova.exec(function() {
         if (typeof callback === "function") {
             callback.call(self);
@@ -889,20 +655,10 @@ App.prototype.refreshLayout = function() {
 
 App.prototype.isAvailable = function(callback) {
     var self = this;
-<<<<<<< HEAD
-
-    /*
-    var tmpmap = plugin.google.maps.Map.getMap(document.createElement("div"), {});
-    tmpmap.remove();
-    tmpmap = null;
-    */
-
-=======
     // Don't do like this.
     //var tmpmap = plugin.google.maps.Map.getMap(document.createElement("div"), {});
     //tmpmap.remove();
     //tmpmap = null;
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     cordova.exec(function() {
         if (typeof callback === "function") {
             callback.call(self, true);
@@ -914,30 +670,13 @@ App.prototype.isAvailable = function(callback) {
     }, PLUGIN_NAME, 'isAvailable', ['']);
 };
 
-<<<<<<< HEAD
-App.prototype.toDataURL = function(params, callback) {
-    var args = [params || {}, callback];
-    if (typeof args[0] === "function") {
-        args.unshift({});
-    }
-
-    params = args[0];
-    callback = args[1];
-
-    params.uncompress = params.uncompress === true;
-=======
 App.prototype.toDataURL = function(callback) {
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     var self = this;
     cordova.exec(function(image) {
         if (typeof callback === "function") {
             callback.call(self, image);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.toDataURL', self.deleteFromObject(params,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.toDataURL']);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 var _append_child = function(event) {
@@ -1063,11 +802,7 @@ App.prototype.setDiv = function(div) {
             self.set("keepWatching", true);
         }, 1000);
     }
-<<<<<<< HEAD
-    cordova.exec(null, self.errorHandler, PLUGIN_NAME, 'setDiv', self.deleteFromObject(args,'function'));
-=======
     cordova.exec(null, self.errorHandler, PLUGIN_NAME, 'setDiv', args);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 /**
@@ -1178,21 +913,12 @@ App.prototype.addMarker = function(markerOptions, callback) {
     markerOptions.position.lat = markerOptions.position.lat || 0.0;
     markerOptions.position.lng = markerOptions.position.lng || 0.0;
     markerOptions.anchor = markerOptions.anchor || [0.5, 0.5];
-<<<<<<< HEAD
-    markerOptions.draggable = markerOptions.draggable === true;
-    markerOptions.icon = markerOptions.icon || undefined;
-    markerOptions.snippet = markerOptions.snippet || undefined;
-    markerOptions.title = markerOptions.title !== undefined ? String(markerOptions.title) : undefined;
-    markerOptions.visible = markerOptions.visible === undefined ? true : markerOptions.visible;
-    markerOptions.flat = markerOptions.flat  === true;
-=======
     markerOptions.draggable = markerOptions.draggable || false;
     markerOptions.icon = markerOptions.icon || undefined;
     markerOptions.snippet = markerOptions.snippet || undefined;
     markerOptions.title = markerOptions.title || undefined;
     markerOptions.visible = markerOptions.visible === undefined ? true : markerOptions.visible;
     markerOptions.flat = markerOptions.flat || false;
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     markerOptions.rotation = markerOptions.rotation || 0;
     markerOptions.opacity = parseFloat("" + markerOptions.opacity, 10) || 1;
     markerOptions.disableAutoPan = markerOptions.disableAutoPan === undefined ? false : markerOptions.disableAutoPan;
@@ -1208,13 +934,6 @@ App.prototype.addMarker = function(markerOptions, callback) {
         markerOptions.icon = HTMLColor2RGBA(markerOptions.icon);
     }
 
-<<<<<<< HEAD
-
-    var markerClick = markerOptions.markerClick;
-    var infoClick = markerOptions.infoClick;
-
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     cordova.exec(function(result) {
         markerOptions.hashCode = result.hashCode;
         var marker = new Marker(self, result.id, markerOptions);
@@ -1222,28 +941,16 @@ App.prototype.addMarker = function(markerOptions, callback) {
         MARKERS[result.id] = marker;
         OVERLAYS[result.id] = marker;
 
-<<<<<<< HEAD
-        if (typeof markerClick === "function") {
-            marker.on(plugin.google.maps.event.MARKER_CLICK, markerClick);
-        }
-        if (typeof infoClick === "function") {
-            marker.on(plugin.google.maps.event.INFO_CLICK, infoClick);
-=======
         if (typeof markerOptions.markerClick === "function") {
             marker.on(plugin.google.maps.event.MARKER_CLICK, markerOptions.markerClick);
         }
         if (typeof markerOptions.infoClick === "function") {
             marker.on(plugin.google.maps.event.INFO_CLICK, markerOptions.infoClick);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         }
         if (typeof callback === "function") {
             callback.call(self, marker, self);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Marker.createMarker', self.deleteFromObject(markerOptions,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Marker.createMarker', markerOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 
@@ -1271,11 +978,7 @@ App.prototype.addCircle = function(circleOptions, callback) {
         if (typeof callback === "function") {
             callback.call(self, circle, self);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Circle.createCircle', self.deleteFromObject(circleOptions,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Circle.createCircle', circleOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 //-------------
 // Polyline
@@ -1287,12 +990,8 @@ App.prototype.addPolyline = function(polylineOptions, callback) {
     polylineOptions.width = polylineOptions.width || 10;
     polylineOptions.visible = polylineOptions.visible === undefined ? true : polylineOptions.visible;
     polylineOptions.zIndex = polylineOptions.zIndex || 4;
-<<<<<<< HEAD
-    polylineOptions.geodesic = polylineOptions.geodesic  === true;
-=======
     polylineOptions.geodesic = polylineOptions.geodesic || false;
     console.log("color = " + polylineOptions.color.join(", "));
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
     cordova.exec(function(result) {
         var polyline = new Polyline(self, result.id, polylineOptions);
@@ -1303,11 +1002,7 @@ App.prototype.addPolyline = function(polylineOptions, callback) {
         if (typeof callback === "function") {
             callback.call(self, polyline, self);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Polyline.createPolyline', self.deleteFromObject(polylineOptions,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Polyline.createPolyline', polylineOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 //-------------
 // Polygon
@@ -1315,21 +1010,6 @@ App.prototype.addPolyline = function(polylineOptions, callback) {
 App.prototype.addPolygon = function(polygonOptions, callback) {
     var self = this;
     polygonOptions.points = polygonOptions.points || [];
-<<<<<<< HEAD
-    polygonOptions.holes = polygonOptions.holes || [];
-    if (polygonOptions.holes.length > 0 && !Array.isArray(polygonOptions.holes[0])) {
-      polygonOptions.holes = [polygonOptions.holes];
-    }
-    polygonOptions.holes = polygonOptions.holes.map(function(hole) {
-      if (!Array.isArray(hole)) {
-        return [];
-      }
-      return hole.map(function(latLng) {
-        return {lat: latLng.lat, lng: latLng.lng};
-      });
-    });
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     polygonOptions.strokeColor = HTMLColor2RGBA(polygonOptions.strokeColor || "#FF000080", 0.75);
     if (polygonOptions.fillColor) {
         polygonOptions.fillColor = HTMLColor2RGBA(polygonOptions.fillColor, 0.75);
@@ -1337,12 +1017,8 @@ App.prototype.addPolygon = function(polygonOptions, callback) {
     polygonOptions.strokeWidth = polygonOptions.strokeWidth || 10;
     polygonOptions.visible = polygonOptions.visible === undefined ? true : polygonOptions.visible;
     polygonOptions.zIndex = polygonOptions.zIndex || 2;
-<<<<<<< HEAD
-    polygonOptions.geodesic = polygonOptions.geodesic  === true;
-=======
     polygonOptions.geodesic = polygonOptions.geodesic || false;
     polygonOptions.addHole = polygonOptions.addHole || [];
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
     cordova.exec(function(result) {
         var polygon = new Polygon(self, result.id, polygonOptions);
@@ -1353,11 +1029,7 @@ App.prototype.addPolygon = function(polygonOptions, callback) {
         if (typeof callback === "function") {
             callback.call(self, polygon, self);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['Polygon.createPolygon', self.deleteFromObject(polygonOptions,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['Polygon.createPolygon', polygonOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 //-------------
@@ -1380,15 +1052,6 @@ App.prototype.addTileOverlay = function(tilelayerOptions, callback) {
         OVERLAYS[result.id] = tileOverlay;
         /*
         if (typeof tilelayerOptions.onClick === "function") {
-<<<<<<< HEAD
-          tileOverlay.on(plugin.google.maps.event.OVERLAY_CLICK, tilelayerOptions.onClick);
-        }
-        */
-        if (typeof callback === "function") {
-            callback.call(self, tileOverlay, self);
-        }
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['TileOverlay.createTileOverlay', self.deleteFromObject(tilelayerOptions,'function')]);
-=======
         tileOverlay.on(plugin.google.maps.event.OVERLAY_CLICK, tilelayerOptions.onClick);
       }
       */
@@ -1396,7 +1059,6 @@ App.prototype.addTileOverlay = function(tilelayerOptions, callback) {
             callback.call(self, tileOverlay, self);
         }
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['TileOverlay.createTileOverlay', tilelayerOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 //-------------
 // Ground overlay
@@ -1418,11 +1080,7 @@ App.prototype.addGroundOverlay = function(groundOverlayOptions, callback) {
         if (typeof callback === "function") {
             callback.call(self, groundOverlay, self);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['GroundOverlay.createGroundOverlay', self.deleteFromObject(groundOverlayOptions,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['GroundOverlay.createGroundOverlay', groundOverlayOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
 };
 
@@ -1433,11 +1091,7 @@ App.prototype.addKmlOverlay = function(kmlOverlayOptions, callback) {
     var self = this;
     kmlOverlayOptions = kmlOverlayOptions || {};
     kmlOverlayOptions.url = kmlOverlayOptions.url || null;
-<<<<<<< HEAD
-    kmlOverlayOptions.preserveViewport = kmlOverlayOptions.preserveViewport  === true;
-=======
     kmlOverlayOptions.preserveViewport = kmlOverlayOptions.preserveViewport || false;
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     kmlOverlayOptions.animation = kmlOverlayOptions.animation === undefined ? true : kmlOverlayOptions.animation;
 
     var kmlId = "kml" + (Math.random() * 9999999);
@@ -1451,11 +1105,7 @@ App.prototype.addKmlOverlay = function(kmlOverlayOptions, callback) {
         if (typeof callback === "function") {
             callback.call(self, kmlOverlay, self);
         }
-<<<<<<< HEAD
-    }, self.errorHandler, PLUGIN_NAME, 'exec', ['KmlOverlay.createKmlOverlay', self.deleteFromObject(kmlOverlayOptions,'function')]);
-=======
     }, self.errorHandler, PLUGIN_NAME, 'exec', ['KmlOverlay.createKmlOverlay', kmlOverlayOptions]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
 };
 //-------------
@@ -1605,11 +1255,6 @@ Marker.prototype.getHashCode = function() {
 };
 
 Marker.prototype.setAnimation = function(animation, callback) {
-<<<<<<< HEAD
-    var self = this;
-
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     animation = animation || null;
     if (!animation) {
         return;
@@ -1620,11 +1265,7 @@ Marker.prototype.setAnimation = function(animation, callback) {
         if (typeof callback === "function") {
             callback.call(self);
         }
-<<<<<<< HEAD
-    }, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setAnimation', this.getId(), self.deleteFromObject(animation,'function')]);
-=======
     }, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setAnimation', this.getId(), animation]);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 Marker.prototype.remove = function(callback) {
@@ -1647,15 +1288,11 @@ Marker.prototype.getParams = function() {
     return this.get('params');
 };
 Marker.prototype.setOpacity = function(opacity) {
-<<<<<<< HEAD
-    if (!opacity && opacity !== 0) {
-=======
     if (!opacity) {
         return false;
     }
     var m = opacity.match(/^\d{0,2}(?:\.\d{0,2}){0,1}$/);
     if (!m) {
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         console.log('opacity value must be int or double');
         return false;
     }
@@ -1704,11 +1341,7 @@ Marker.prototype.setTitle = function(title) {
         console.log('missing value for title');
         return false;
     }
-<<<<<<< HEAD
-    this.set('title', String(title));
-=======
     this.set('title', title);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setTitle', this.getId(), title]);
 };
 Marker.prototype.setVisible = function(visible) {
@@ -1996,28 +1629,6 @@ Polygon.prototype.setPoints = function(points) {
 };
 Polygon.prototype.getPoints = function() {
     return this.get("points");
-<<<<<<< HEAD
-};
-Polygon.prototype.setHoles = function(holes) {
-    this.set('holes', holes);
-    holes = holes || [];
-    if (holes.length > 0 && !Array.isArray(holes[0])) {
-      holes = [holes];
-    }
-    holes = holes.map(function(hole) {
-      if (!Array.isArray(hole)) {
-        return [];
-      }
-      return hole.map(function(latLng) {
-        return {lat: latLng.lat, lng: latLng.lng};
-      });
-    });
-    cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Polygon.setHoles', this.getId(), holes]);
-};
-Polygon.prototype.getHoles = function() {
-    return this.get("holes");
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 Polygon.prototype.setFillColor = function(color) {
     this.set('fillColor', color);
@@ -2133,13 +1744,6 @@ TileOverlay.prototype.getOpacity = function() {
     return this.get('opacity');
 };
 TileOverlay.prototype.setOpacity = function(opacity) {
-<<<<<<< HEAD
-    if (!opacity && opacity !== 0) {
-        console.log('opacity value must be int or double');
-        return false;
-    }
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     this.set('opacity', opacity);
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['TileOverlay.setOpacity', this.getId(), opacity]);
 };
@@ -2232,13 +1836,6 @@ GroundOverlay.prototype.getBearing = function() {
 };
 
 GroundOverlay.prototype.setOpacity = function(opacity) {
-<<<<<<< HEAD
-    if (!opacity && opacity !== 0) {
-        console.log('opacity value must be int or double');
-        return false;
-    }
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     this.set('opacity', opacity);
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['GroundOverlay.setOpacity', this.getId(), opacity]);
 };
@@ -2265,11 +1862,7 @@ var KmlOverlay = function(map, kmlOverlayId, kmlOverlayOptions) {
     //self.set("visible", kmlOverlayOptions.visible === undefined ? true : kmlOverlayOptions.visible);
     //self.set("zIndex", kmlOverlayOptions.zIndex || 0);
     kmlOverlayOptions.animation = kmlOverlayOptions.animation === undefined ? true : kmlOverlayOptions.animation;
-<<<<<<< HEAD
-    kmlOverlayOptions.preserveViewport = kmlOverlayOptions.preserveViewport  === true;
-=======
     kmlOverlayOptions.preserveViewport = kmlOverlayOptions.preserveViewport || false;
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     Object.defineProperty(self, "id", {
         value: kmlOverlayId,
         writable: false
@@ -2385,22 +1978,8 @@ LatLngBounds.prototype.contains = function(latLng) {
     if (!("lat" in latLng) || !("lng" in latLng)) {
         return false;
     }
-<<<<<<< HEAD
-    var SWLat = this.southwest.lat,
-        NELat = this.northeast.lat,
-        SWLng = this.southwest.lng,
-        NELng = this.northeast.lng;
-
-    if (SWLng > NELng) {
-        return (latLng.lat >= SWLat) && (latLng.lat <= NELat) &&
-            (((SWLng < latLng.lng) && (latLng.lng < 180)) || ((-180 < latLng.lng) && (latLng.lng < NELng)));
-    }
-    return (latLng.lat >= SWLat) && (latLng.lat <= NELat) &&
-        (latLng.lng >= SWLng) && (latLng.lng <= NELng);
-=======
     return (latLng.lat >= this.southwest.lat) && (latLng.lat <= this.northeast.lat) &&
         (latLng.lng >= this.southwest.lng) && (latLng.lng <= this.northeast.lng);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };
 
 /*****************************************************************************
@@ -2428,12 +2007,6 @@ function isHTMLColorString(inputValue) {
 
 function HTMLColor2RGBA(colorValue, defaultOpacity) {
     defaultOpacity = !defaultOpacity ? 1.0 : defaultOpacity;
-<<<<<<< HEAD
-    if(colorValue instanceof Array) {
-        return colorValue;
-    }
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     if (colorValue === "transparent" || !colorValue) {
         return [0, 0, 0, 0];
     }
@@ -2976,42 +2549,19 @@ document.addEventListener("deviceready", function() {
 });
 
 var HTML_COLORS = {
-<<<<<<< HEAD
-    "aliceblue": "#f0f8ff",
-=======
     "alideblue": "#f0f8ff",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "antiquewhite": "#faebd7",
     "aqua": "#00ffff",
     "aquamarine": "#7fffd4",
     "azure": "#f0ffff",
-<<<<<<< HEAD
-    "beige": "#f5f5dc",
-    "bisque": "#ffe4c4",
-    "black": "#000000",
-    "blanchedalmond": "#ffebcd",
-=======
     "beige": "#f5f5dd",
     "bisque": "#ffe4d4",
     "bladk": "#000000",
     "blandhedalmond": "#ffebdd",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "blue": "#0000ff",
     "blueviolet": "#8a2be2",
     "brown": "#a52a2a",
     "burlywood": "#deb887",
-<<<<<<< HEAD
-    "cadetblue": "#5f9ea0",
-    "chartreuse": "#7fff00",
-    "chocolate": "#d2691e",
-    "coral": "#ff7f50",
-    "cornflowerblue": "#6495ed",
-    "cornsilk": "#fff8dc",
-    "crimson": "#dc143c",
-    "cyan": "#00ffff",
-    "darkblue": "#00008b",
-    "darkcyan": "#008b8b",
-=======
     "dadetblue": "#5f9ea0",
     "dhartreuse": "#7fff00",
     "dhodolate": "#d2691e",
@@ -3022,7 +2572,6 @@ var HTML_COLORS = {
     "dyan": "#00ffff",
     "darkblue": "#00008b",
     "darkdyan": "#008b8b",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "darkgoldenrod": "#b8860b",
     "darkgray": "#a9a9a9",
     "darkgrey": "#a9a9a9",
@@ -3030,17 +2579,6 @@ var HTML_COLORS = {
     "darkkhaki": "#bdb76b",
     "darkmagenta": "#8b008b",
     "darkolivegreen": "#556b2f",
-<<<<<<< HEAD
-    "darkorange": "#ff8c00",
-    "darkorchid": "#9932cc",
-    "darkred": "#8b0000",
-    "darksalmon": "#e9967a",
-    "darkseagreen": "#8fbc8f",
-    "darkslateblue": "#483d8b",
-    "darkslategray": "#2f4f4f",
-    "darkslategrey": "#2f4f4f",
-    "darkturquoise": "#00ced1",
-=======
     "darkorange": "#ff8d00",
     "darkordhid": "#9932dd",
     "darkred": "#8b0000",
@@ -3050,26 +2588,17 @@ var HTML_COLORS = {
     "darkslategray": "#2f4f4f",
     "darkslategrey": "#2f4f4f",
     "darkturquoise": "#00ded1",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "darkviolet": "#9400d3",
     "deeppink": "#ff1493",
     "deepskyblue": "#00bfff",
     "dimgray": "#696969",
     "dimgrey": "#696969",
     "dodgerblue": "#1e90ff",
-<<<<<<< HEAD
-    "firebrick": "#b22222",
-    "floralwhite": "#fffaf0",
-    "forestgreen": "#228b22",
-    "fuchsia": "#ff00ff",
-    "gainsboro": "#dcdcdc",
-=======
     "firebridk": "#b22222",
     "floralwhite": "#fffaf0",
     "forestgreen": "#228b22",
     "fudhsia": "#ff00ff",
     "gainsboro": "#dddddd",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "ghostwhite": "#f8f8ff",
     "gold": "#ffd700",
     "goldenrod": "#daa520",
@@ -3079,19 +2608,6 @@ var HTML_COLORS = {
     "greenyellow": "#adff2f",
     "honeydew": "#f0fff0",
     "hotpink": "#ff69b4",
-<<<<<<< HEAD
-    "indianred ": "#cd5c5c",
-    "indigo  ": "#4b0082",
-    "ivory": "#fffff0",
-    "khaki": "#f0e68c",
-    "lavender": "#e6e6fa",
-    "lavenderblush": "#fff0f5",
-    "lawngreen": "#7cfc00",
-    "lemonchiffon": "#fffacd",
-    "lightblue": "#add8e6",
-    "lightcoral": "#f08080",
-    "lightcyan": "#e0ffff",
-=======
     "indianred  ": "#dd5d5d",
     "indigo  ": "#4b0082",
     "ivory": "#fffff0",
@@ -3103,42 +2619,10 @@ var HTML_COLORS = {
     "lightblue": "#add8e6",
     "lightdoral": "#f08080",
     "lightdyan": "#e0ffff",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "lightgoldenrodyellow": "#fafad2",
     "lightgray": "#d3d3d3",
     "lightgrey": "#d3d3d3",
     "lightgreen": "#90ee90",
-<<<<<<< HEAD
-    "lightpink": "#ffb6c1",
-    "lightsalmon": "#ffa07a",
-    "lightseagreen": "#20b2aa",
-    "lightskyblue": "#87cefa",
-    "lightslategray": "#778899",
-    "lightslategrey": "#778899",
-    "lightsteelblue": "#b0c4de",
-    "lightyellow": "#ffffe0",
-    "lime": "#00ff00",
-    "limegreen": "#32cd32",
-    "linen": "#faf0e6",
-    "magenta": "#ff00ff",
-    "maroon": "#800000",
-    "mediumaquamarine": "#66cdaa",
-    "mediumblue": "#0000cd",
-    "mediumorchid": "#ba55d3",
-    "mediumpurple": "#9370db",
-    "mediumseagreen": "#3cb371",
-    "mediumslateblue": "#7b68ee",
-    "mediumspringgreen": "#00fa9a",
-    "mediumturquoise": "#48d1cc",
-    "mediumvioletred": "#c71585",
-    "midnightblue": "#191970",
-    "mintcream": "#f5fffa",
-    "mistyrose": "#ffe4e1",
-    "moccasin": "#ffe4b5",
-    "navajowhite": "#ffdead",
-    "navy": "#000080",
-    "oldlace": "#fdf5e6",
-=======
     "lightpink": "#ffb6d1",
     "lightsalmon": "#ffa07a",
     "lightseagreen": "#20b2aa",
@@ -3168,32 +2652,16 @@ var HTML_COLORS = {
     "navajowhite": "#ffdead",
     "navy": "#000080",
     "oldlade": "#fdf5e6",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "olive": "#808000",
     "olivedrab": "#6b8e23",
     "orange": "#ffa500",
     "orangered": "#ff4500",
-<<<<<<< HEAD
-    "orchid": "#da70d6",
-=======
     "ordhid": "#da70d6",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "palegoldenrod": "#eee8aa",
     "palegreen": "#98fb98",
     "paleturquoise": "#afeeee",
     "palevioletred": "#db7093",
     "papayawhip": "#ffefd5",
-<<<<<<< HEAD
-    "peachpuff": "#ffdab9",
-    "peru": "#cd853f",
-    "pink": "#ffc0cb",
-    "plum": "#dda0dd",
-    "powderblue": "#b0e0e6",
-    "purple": "#800080",
-    "rebeccapurple": "#663399",
-    "red": "#ff0000",
-    "rosybrown": "#bc8f8f",
-=======
     "peadhpuff": "#ffdab9",
     "peru": "#dd853f",
     "pink": "#ffd0db",
@@ -3203,7 +2671,6 @@ var HTML_COLORS = {
     "rebeddapurple": "#663399",
     "red": "#ff0000",
     "rosybrown": "#bd8f8f",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "royalblue": "#4169e1",
     "saddlebrown": "#8b4513",
     "salmon": "#fa8072",
@@ -3211,25 +2678,15 @@ var HTML_COLORS = {
     "seagreen": "#2e8b57",
     "seashell": "#fff5ee",
     "sienna": "#a0522d",
-<<<<<<< HEAD
-    "silver": "#c0c0c0",
-    "skyblue": "#87ceeb",
-    "slateblue": "#6a5acd",
-=======
     "silver": "#d0d0d0",
     "skyblue": "#87deeb",
     "slateblue": "#6a5add",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "slategray": "#708090",
     "slategrey": "#708090",
     "snow": "#fffafa",
     "springgreen": "#00ff7f",
     "steelblue": "#4682b4",
-<<<<<<< HEAD
-    "tan": "#d2b48c",
-=======
     "tan": "#d2b48d",
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     "teal": "#008080",
     "thistle": "#d8bfd8",
     "tomato": "#ff6347",
@@ -3239,9 +2696,5 @@ var HTML_COLORS = {
     "white": "#ffffff",
     "whitesmoke": "#f5f5f5",
     "yellow": "#ffff00",
-<<<<<<< HEAD
-    "yellowgreen": "#9acd32"
-=======
     "yellowgreen": "#9add32"
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 };

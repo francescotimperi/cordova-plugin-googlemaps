@@ -12,11 +12,6 @@
 
 - (void)pluginInitialize
 {
-#if CORDOVA_VERSION_MIN_REQUIRED >= __CORDOVA_4_0_0
-    self.webView.backgroundColor = [UIColor clearColor];
-    self.webView.opaque = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoad) name:CDVPageDidLoadNotification object:nil];
-#endif
     self.licenseLayer = nil;
     self.mapCtrl.isFullScreen = YES;
     self.locationCommandQueue = [[NSMutableArray alloc] init];
@@ -53,10 +48,7 @@
     [self.viewController.view addSubview:self.pluginLayer];
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     NSString *APIKey = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Google Maps API Key"];
     if (APIKey == nil) {
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
@@ -142,13 +134,6 @@
     [self.pluginScrollView.debugView setNeedsDisplay];
 }
 
-<<<<<<< HEAD
--(void)pageDidLoad {
-    self.webView.backgroundColor = [UIColor clearColor];
-    self.webView.opaque = NO;
-}
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
 
 /**
  * Intialize the map
@@ -175,13 +160,7 @@
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     } else {
-<<<<<<< HEAD
-
-        //dispatch_queue_t gueue = dispatch_queue_create("plugins.google.maps.init", NULL);
-
-=======
         dispatch_queue_t gueue = dispatch_queue_create("plugins.google.maps.init", NULL);
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         // Create a map view
         // async:
         //marker will be created while map controller is not full intialized.
@@ -243,45 +222,10 @@
         // C.A. Clustering -------------------------------------------------------------
 
         self.mapCtrl.webView = self.webView;
-<<<<<<< HEAD
-
-=======
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         if ([options objectForKey:@"backgroundColor"]) {
             NSArray *rgbColor = [options objectForKey:@"backgroundColor"];
             self.pluginLayer.backgroundColor = [rgbColor parsePluginColor];
         }
-<<<<<<< HEAD
-
-
-        // Create an instance of Map Class
-#if CORDOVA_VERSION_MIN_REQUIRED >= __CORDOVA_4_0_0
-        Map *mapClass = [(CDVViewController*)self.viewController getCommandInstance:@"Map"];
-#else
-        Map *mapClass = [[NSClassFromString(@"Map")alloc] initWithWebView:self.webView];
-#endif
-        mapClass.commandDelegate = self.commandDelegate;
-        [mapClass setGoogleMapsViewController:self.mapCtrl];
-        [self.mapCtrl.plugins setObject:mapClass forKey:@"Map"];
-
-
-        if ([command.arguments count] == 3) {
-            [self.mapCtrl.view removeFromSuperview];
-            self.mapCtrl.isFullScreen = NO;
-            self.pluginLayer.mapCtrl = self.mapCtrl;
-            self.pluginLayer.webView = self.webView;
-
-
-            [self.pluginScrollView attachView:self.mapCtrl.view];
-            //[self.pluginScrollView addSubview:self.mapCtrl.view];
-            [self resizeMap:command];
-        }
-
-
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-
-=======
         //    });
 
 
@@ -311,7 +255,6 @@
 
             });
         });
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
     }
 }
 
@@ -359,11 +302,7 @@
 
             pluginClass = [self.mapCtrl.plugins objectForKey:className];
             if (!pluginClass) {
-#if CORDOVA_VERSION_MIN_REQUIRED >= __CORDOVA_4_0_0
-                pluginClass = [(CDVViewController*)self.viewController getCommandInstance:className];
-#else
                 pluginClass = [[NSClassFromString(className)alloc] initWithWebView:self.webView];
-#endif
                 if (pluginClass) {
                     pluginClass.commandDelegate = self.commandDelegate;
                     [pluginClass setGoogleMapsViewController:self.mapCtrl];
@@ -439,11 +378,7 @@
      */
     //Notify to the JS
     NSString* jsString = [NSString stringWithFormat:@"plugin.google.maps.Map._onMapEvent('map_close');"];
-    if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
-        [self.webView performSelector:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString];
-    } else if ([self.webView respondsToSelector:@selector(evaluateJavaScript:completionHandler:)]) {
-        [self.webView performSelector:@selector(evaluateJavaScript:completionHandler:) withObject:jsString withObject:nil];
-    }
+    [self.webView stringByEvaluatingJavaScriptFromString:jsString];
 }
 
 /**
@@ -636,20 +571,10 @@
     // iOS8 or above
     direction = [UIDevice currentDevice].orientation;
 #endif
-<<<<<<< HEAD
-   
-   // On at least iOS 9.3.5, the screenSize.size changes on-orientation-change,
-   // so we need to check if we really need to use the height as width and vice versa,
-   // when in landscape mode.
-   if ((direction == UIInterfaceOrientationLandscapeLeft ||
-        direction == UIInterfaceOrientationLandscapeRight)
-       && screenSize.size.height > screenSize.size.width) {
-=======
 
 
     if (direction == UIInterfaceOrientationLandscapeLeft ||
         direction == UIInterfaceOrientationLandscapeRight) {
->>>>>>> 893e0513d1562ef45698bcef22812df5facab87c
         pluginRect.size.width = screenSize.size.height;
         pluginRect.size.height = screenSize.size.width - footerHeight - footerAdjustment;
     } else {

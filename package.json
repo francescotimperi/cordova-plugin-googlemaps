@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mapsplugin/cordova-plugin-googlemaps.git"
+    "url": "https://github.com/francescotimperi/cordova-plugin-googlemaps.git"
   },
   "keywords": [
     "google",
@@ -29,10 +29,10 @@
       "version": ">=3.5.0"
     }
   ],
-  "author": "Masashi Katsumata, Hirbod Mirjavadi",
+  "author": "Francesco Timperi Tiberi",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/mapsplugin/cordova-plugin-googlemaps/issues"
+    "url": "https://github.com/francescotimperi/cordova-plugin-googlemaps/issues"
   },
-  "homepage": "https://github.com/mapsplugin/cordova-plugin-googlemaps#readme"
+  "homepage": "https://github.com/francescotimperi/cordova-plugin-googlemaps#readme"
 }
